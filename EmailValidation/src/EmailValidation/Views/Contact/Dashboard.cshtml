@@ -1,0 +1,123 @@
+﻿@model EmailValidation.Models.DashboardViewModel
+
+<style>
+    body { background-color: #f6f8fc; font-family: 'Roboto', sans-serif; }
+    
+    /* Gmail Search Bar Style */
+    .g-search { background: #eaf1fb; border: none; border-radius: 8px; padding: 12px 20px; width: 100%; color: #5f6368; }
+    
+    /* Category Tabs (Stats) */
+    .g-tab { cursor: pointer; border-bottom: 3px solid transparent; padding: 15px; color: #5f6368; transition: 0.2s; }
+    .g-tab:hover { background-color: rgba(32,33,36,0.039); }
+    .g-tab.active-blue { border-color: #1a73e8; color: #1a73e8; }
+    .g-tab.active-green { border-color: #188038; color: #188038; }
+    .g-tab.active-red { border-color: #d93025; color: #d93025; }
+    
+    /* Email List Rows */
+    .email-row { background: white; border-bottom: 1px solid #f1f3f4; padding: 10px 15px; cursor: pointer; transition: box-shadow 0.2s; }
+    .email-row:hover { box-shadow: 0 1px 3px rgba(0,0,0,0.12); z-index: 2; position: relative; }
+    .email-sender { font-weight: 700; color: #202124; width: 200px; }
+    .email-subject { color: #5f6368; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .email-date { font-size: 0.8rem; color: #5f6368; width: 80px; text-align: right; }
+    
+    /* FAB Button */
+    .btn-compose { background-color: white; color: #5f6368; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); border-radius: 24px; padding: 10px 24px; font-weight: 500; font-size: 0.9rem; letter-spacing: .25px; border:none; transition: 0.2s; }
+    .btn-compose:hover { box-shadow: 0 4px 6px 0 rgba(60,64,67,0.3); background-color: #f8f9fa; }
+    .btn-compose i { font-size: 1.5rem; vertical-align: middle; margin-right: 10px; color: #ea4335; } /* Red Plus */
+</style>
+
+<div class="container-fluid mt-3">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-2">
+            <a href="/Contact/Index" class="btn-compose text-decoration-none">
+                <i class="material-icons">add</i> Compose
+            </a>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="g-search" placeholder="Search mail (submissions)">
+        </div>
+        <div class="col-md-2 text-end">
+            <span class="material-icons text-secondary p-2">settings</span>
+            <span class="material-icons text-secondary p-2">apps</span>
+            <div class="d-inline-block bg-primary text-white rounded-circle text-center" style="width:32px; height:32px; line-height:32px;">A</div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden; min-height: 80vh;">
+        
+        <div class="d-flex border-bottom bg-white">
+            <div class="g-tab active-blue flex-fill d-flex align-items-center">
+                <span class="material-icons me-2">inbox</span> 
+                <div>
+                    <div class="fw-bold">All Submissions</div>
+                    <small>@Model.TotalSubmissions total</small>
+                </div>
+            </div>
+            <div class="g-tab active-green flex-fill d-flex align-items-center">
+                <span class="material-icons me-2">check_circle</span>
+                <div>
+                    <div class="fw-bold">Success</div>
+                    <small>@Model.SuccessfulRegistrations new</small>
+                </div>
+            </div>
+            <div class="g-tab active-red flex-fill d-flex align-items-center">
+                <span class="material-icons me-2">report</span>
+                <div>
+                    <div class="fw-bold">Blocked</div>
+                    <small>@Model.BlockedEmailAttempts spam</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white">
+            @if (Model.SubmittedForms.Any())
+            {
+                @foreach (var form in Model.SubmittedForms)
+                {
+                    <div class="email-row d-flex align-items-center">
+                        <div class="me-3">
+                            <span class="material-icons text-secondary" style="font-size: 20px;">check_box_outline_blank</span>
+                        </div>
+                        <div class="me-3">
+                            <span class="material-icons text-warning" style="font-size: 20px;">star_border</span>
+                        </div>
+                        <div class="email-sender">@form.PhoneNumber</div>
+                        <div class="email-subject">
+                            <span class="fw-bold text-dark">@form.Email</span> 
+                            <span class="text-secondary"> - @form.Description</span>
+                        </div>
+                        <div class="email-date">Now</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center p-5 text-muted">
+                    <span class="material-icons" style="font-size: 48px; color: #dadce0;">inbox</span>
+                    <p class="mt-2">Your inbox is empty</p>
+                </div>
+            }
+
+            @if (Model.BlockedEmails.Any())
+            {
+                <div class="p-3 bg-light border-bottom text-uppercase fw-bold text-secondary" style="font-size: 0.75rem;">Spam / Blocked</div>
+                @foreach (var email in Model.BlockedEmails)
+                {
+                    <div class="email-row d-flex align-items-center bg-light">
+                        <div class="me-3">
+                            <span class="material-icons text-secondary" style="font-size: 20px;">check_box_outline_blank</span>
+                        </div>
+                        <div class="me-3">
+                            <span class="material-icons text-danger" style="font-size: 20px;">block</span>
+                        </div>
+                        <div class="email-sender text-danger">Blocked System</div>
+                        <div class="email-subject text-secondary">
+                            <span class="fw-bold text-dark">@email</span> - Entry rejected due to policy.
+                        </div>
+                        <div class="email-date">Now</div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
