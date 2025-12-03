@@ -2,8 +2,6 @@
 
 # **EmailValidation – .NET 8 Razor App (Updated)**
 
-EmailValidation is a **.NET 8 Razor Pages application** that validates emails using multiple layers:
-
 * Format validation
 * Domain availability
 * DNS lookup
