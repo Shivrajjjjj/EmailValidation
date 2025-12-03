@@ -97,7 +97,7 @@ dotnet run
 App will start on something like:
 
 ```
-http://localhost:5296/
+http://localhost:/
 ```
 
 ---
