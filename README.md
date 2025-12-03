@@ -1,6 +1,3 @@
----
-#EmailValidation 
-
 * Format validation
 * Domain availability
 * DNS lookup
