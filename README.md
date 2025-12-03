@@ -1,83 +1,176 @@
-# EmailValidation
+---
 
-EmailValidation is a Razor Pages application built with .NET 8.0. It provides functionality to validate emails, submit forms, and monitor blocked email attempts. The application includes a dashboard for managing submissions and blocked emails.
+# **EmailValidation – .NET 8 Razor App (Updated)**
 
-## Features
+EmailValidation is a **.NET 8 Razor Pages application** that validates emails using multiple layers:
 
-- **Email Validation**: Validate email addresses and block invalid ones.
-- **Contact Form**: Submit contact details including phone number, email, and description.
-- **Dashboard**: View statistics for total submissions, successful registrations, and blocked emails.
-- **Blocked Emails**: Monitor and display blocked email addresses.
-- **Dynamic Alerts**: Notify users with success or error messages using Bootstrap alerts.
+* Format validation
+* Domain availability
+* DNS lookup
+* MX record check
+* Allowed/Blocked domain rules
+* Custom EmailBlockerLib for dummy blocking
 
-## Prerequisites
-
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Node.js](https://nodejs.org/) (optional, for managing frontend dependencies)
-- A modern web browser
-
-## Getting Started
-
-
-### 2. Restore Dependencies
-
-Restore the required NuGet packages:
-
-
-### 3. Build the Application
-
-Build the project to ensure everything is set up correctly:
-
-
-### 4. Run the Application
-
-Run the application locally:
-
-
-The application will start and bind to a random available port. Open your browser and navigate to the URL displayed in the terminal (e.g., `http://127.0.0.1:5000`).
-
-### 5. Access the Application
-
-- **Home Page**: `http://127.0.0.1:<port>/`
-- **Contact Page**: `http://127.0.0.1:<port>/Contact/Index`
-- **Dashboard**: `http://127.0.0.1:<port>/Contact/Dashboard`
-- **Blocked Emails**: `http://127.0.0.1:<port>/Contact/BlockedEmail`
-
-## Project Structure
-
-- **Controllers**: Handles HTTP requests and responses.
-- **Views**: Razor Pages for the user interface.
-- **Models**: Contains data models like `ContactModel` and `DashboardViewModel`.
-- **Services**: Includes the `EmailBlockService` for email validation logic.
-- **wwwroot**: Static files such as CSS, JavaScript, and images.
-
-## Key Files
-
-- `Program.cs`: Configures the application and middleware.
-- `Views/Shared/_Layout.cshtml`: Defines the layout for all pages.
-- `wwwroot/js/alerts.js`: Handles dynamic alert notifications.
-- `wwwroot/css/EmailValidation.styles.css`: Custom styles for the application.
-
-## Dependencies
-
-- **NuGet Packages**:
-  - `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation`: Enables runtime compilation of Razor views.
-- **Frontend Libraries**:
-  - [Bootstrap](https://getbootstrap.com/): For responsive design and styling.
-  - [jQuery Validation](https://jqueryvalidation.org/): For client-side form validation.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](wwwroot/lib/jquery-validation/LICENSE.md) file for details.
-
-## Contributing
-
-Contributions are welcome! Feel free to submit issues or pull requests to improve the project.
-
-## Acknowledgments
-
-- [jQuery Validation Plugin](https://jqueryvalidation.org/)
-- [Bootstrap](https://getbootstrap.com/)
+It also includes a submission form, dashboard, and blocked email list.
 
 ---
 
+## ** Update (New)**
+
+### **✔ Added Advanced Email Validation**
+
+* DNS lookup for domain
+* MX record verification
+* Regex-based format validation
+
+### **✔ Integrated DummyEmailChecker (EmailBlockerLib)**
+
+* Checks blocked emails
+* Checks blocked domains
+* Allows only safe domains
+* Uses live DNS to validate unknown domains
+
+### **✔ Added NuGet Package Support**
+
+Installed:
+
+```
+DnsClient
+Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+```
+
+Updated logic in:
+
+* `AdvancedEmailValidator.cs`
+* `ContactController.cs`
+* `DummyEmailChecker.cs`
+
+### **✔ Added Domain Dictionary Logic**
+
+If email domain exists in **BlockedDomains**, return error:
+
+```
+Not a valid email address.
+```
+
+If not blocked → validate using DNS + MX.
+
+---
+
+## **Features**
+
+* ✔ **Email Validation** (Regex + DNS + MX + Allowed/Blocked rules)
+* ✔ **Contact Form Submission**
+* ✔ **Blocked Email Handling**
+* ✔ **Dashboard with statistics**
+* ✔ **Bootstrap Alerts for messages**
+* ✔ **Custom EmailBlockerLib integration**
+
+---
+
+## **Prerequisites**
+
+* .NET 8 SDK
+* NuGet Packages:
+
+  ```
+  DnsClient
+  Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+  ```
+
+---
+
+## **Setup Instructions**
+
+### **1. Restore Dependencies**
+
+```
+dotnet restore
+```
+
+### **2. Build**
+
+```
+dotnet build
+```
+
+### **3. Run**
+
+```
+dotnet run
+```
+
+App will start on something like:
+
+```
+http://localhost:5296/
+```
+
+---
+
+## **App URLs**
+
+| Feature        | URL                     |
+| -------------- | ----------------------- |
+| Home           | `/`                     |
+| Contact Form   | `/Contact/Index`        |
+| Dashboard      | `/Contact/Dashboard`    |
+| Blocked Emails | `/Contact/BlockedEmail` |
+
+---
+
+## **Project Structure**
+
+### **Controllers**
+
+* `ContactController.cs` → Form submission + advanced email rules
+
+### **Services**
+
+* `AdvancedEmailValidator.cs` → Format + DNS + MX check
+* `EmailBlockService.cs` → Wrapper for DummyEmailChecker
+* `EmailBlockerLib` → Blocked emails/domains/patterns
+
+### **Views**
+
+* Razor UI pages
+
+### **wwwroot**
+
+* Bootstrap
+* Custom CSS
+* Alert JS
+
+---
+
+## **Key Files Updated Today**
+
+* `DummyEmailChecker.cs`
+* `AdvancedEmailValidator.cs`
+* `ContactController.cs`
+* README.md (this file)
+
+---
+
+## **NuGet Packages Used**
+
+```
+DnsClient
+Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+```
+
+---
+
+## **Frontend Tools**
+
+* Bootstrap 5
+* jQuery Validation
+* Custom JS for messages
+
+---
+
+
+
+---
+
+If you want, I can also **format it as GitHub Markdown**, **add badges**, or **add screenshots**.
