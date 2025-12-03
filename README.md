@@ -1,6 +1,5 @@
 ---
-
-# **EmailValidation – .NET 8 Razor App (Updated)**
+#EmailValidation 
 
 * Format validation
 * Domain availability
