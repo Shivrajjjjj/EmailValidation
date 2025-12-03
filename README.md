@@ -165,6 +165,4 @@ Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 
 
 
----
 
-If you want, I can also **format it as GitHub Markdown**, **add badges**, or **add screenshots**.
