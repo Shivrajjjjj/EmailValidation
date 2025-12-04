@@ -1,0 +1,83 @@
+﻿@model EmailValidation.Models.IndexViewModel
+
+@{
+    ViewData["Title"] = "Email Validation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-3 fw-bold">Email Validation Form</h3>
+
+                <!-- ✅ Show success/failed message -->
+                @if (TempData["Message"] != null)
+                {
+                    <div class="alert alert-@TempData["Status"] alert-dismissible fade show mt-2" role="alert">
+                        @TempData["Message"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <form asp-action="Submit" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <button class="btn btn-primary w-100">Submit</button>
+                </form>
+                @if (ViewBag.BlockedEmailDetails != null && ViewBag.BlockedEmailDetails.Count > 0)
+                    {
+                        <hr />
+                        <h4 class="mt-4 fw-bold text-danger">Blocked Email Logs</h4>
+
+                        <table class="table table-bordered table-striped mt-3">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Reason</th>
+                                    <th>Email</th>
+                                    <th>Domain</th>
+                                    <th>Host</th>
+                                    <th>IP Address</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in ViewBag.BlockedEmailDetails)
+                            {
+                                <tr>
+                                    <td>@item.Reason</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Domain</td>
+                                    <td>@item.HostName</td>
+                                    <td>@item.IPAddress</td>
+                                    <td>@item.TriggerTime</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

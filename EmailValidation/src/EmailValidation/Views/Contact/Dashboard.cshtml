@@ -1,0 +1,105 @@
+﻿@model EmailValidation.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4">📊 Email Validation Dashboard</h2>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>Total Submissions</h4>
+                <h2 class="text-primary fw-bold">@Model.TotalSubmissions</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>Successful Registrations</h4>
+                <h2 class="text-success fw-bold">@Model.SuccessfulRegistrations</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>Blocked Attempts</h4>
+                <h2 class="text-danger fw-bold">@Model.BlockedEmailAttempts</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Successful Submissions -->
+    <div class="card shadow mb-5 p-3">
+        <h4 class="fw-bold mb-3">✔ Successful Email Submissions</h4>
+
+        @if (!Model.SubmittedForms.Any())
+        {
+            <p class="text-muted">No successful submissions.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.SubmittedForms)
+                    {
+                        <tr>
+                            <td>@x.Email</td>
+                            <td>@x.PhoneNumber</td>
+                            <td>@x.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Blocked Details -->
+    <div class="card shadow p-3">
+        <h4 class="fw-bold mb-3">❌ Blocked Emails Details</h4>
+
+        @if (!Model.BlockedEmailDetails.Any())
+        {
+            <p class="text-muted">No blocked attempts.</p>
+        }
+        else
+        {
+            <table class="table table-bordered">
+                <thead class="table-danger">
+                    <tr>
+                        <th>Email</th>
+                        <th>Domain</th>
+                        <th>IP</th>
+                        <th>Host</th>
+                        <th>Reason</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.BlockedEmailDetails)
+                    {
+                        <tr>
+                            <td>@item.Email</td>
+                            <td>@item.Domain</td>
+                            <td>@item.IPAddress</td>
+                            <td>@item.HostName</td>
+                            <td class="text-danger fw-semibold">@item.Reason</td>
+                            <td>@item.TriggerTime</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+</div>
